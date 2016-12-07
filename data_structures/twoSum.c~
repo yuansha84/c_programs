@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define bool int
+#define true 1
+#define false 0
+struct TwoSum {
+    int *nums;
+    int capa;
+    int size;
+};
+
+/** Initialize your data structure here. */
+struct TwoSum* twoSumCreate() {
+    struct TwoSum *ts=(struct TwoSum*)malloc(sizeof(struct TwoSum));
+    ts->capa=10000;
+    ts->nums=(int*)malloc(sizeof(int)*10000);
+    ts->size=0;
+    return ts;
+}
+
+/** Add the number to an internal data structure. */
+void add(struct TwoSum* twoSum, int number) {
+    if(twoSum->size==twoSum->capa){
+        printf("data structure is full,can not add!\n");
+        exit(-1);
+    }
+    twoSum->nums[twoSum->size]=number;
+    twoSum->size++;
+}
+
+/** Find if there exists any pair of numbers which sum is equal to the value. */
+bool find(struct TwoSum* twoSum, int value) {
+    int i,j,sum;
+    for(i=0;i<twoSum->size-1;i++)
+    for(j=i+1;j<twoSum->size;j++)
+    if(twoSum->nums[i]+twoSum->nums[j]==value)
+    return true;
+    return false;
+}
+
+/** Deallocates memory previously allocated for the data structure. */
+void twoSumFree(struct TwoSum* twoSum) {
+    free(twoSum->nums);
+    free(twoSum);
+}
+
+int main(){
+struct TwoSum* ts=twoSumCreate();
+add(ts,1);
+add(ts,3);
+add(ts,5);
+if(find(ts,4))
+printf("Found!\n");
+else printf("Not found\n");
+return 0;
+}
